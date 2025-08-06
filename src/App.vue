@@ -1,28 +1,67 @@
 <template>
-    <main class="columns is-gapless is-multiline">
-        <div class="column is-one-quarter">
-            <SidebarMenu />
-        </div>
-        <div class="column is-three-quarter">
-            <FormMenu />
-        </div>
-    </main>
+  <main class="columns is-gapless is-multiline">
+    <div class="column is-one-quarter">
+      <SidebarMenu />
+    </div>
+    <div class="column is-three-quarter conteudo">
+      <FormMenu @aoSalvarTarefa="salvarTarefa"/>
+      <div class="lista">
+        <TaskMenu v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"/>
+        <BoxMenu v-if="listaEstaVazia">
+          Você não está muito produtivo hoje :(
+        </BoxMenu>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SidebarMenu from './components/SidebarMenu.vue';
+import TaskMenu from './components/TaskMenu.vue';
+import BoxMenu from './components/BoxMenu.vue'
+import ITask from './interfaces/ITask';
 import FormMenu from './components/FormMenu.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
     SidebarMenu,
-    FormMenu
+    FormMenu,
+    TaskMenu,
+    BoxMenu
+  },
+  data () {
+    return {
+      tarefas: [] as ITask[]
+    }
+  },
+  computed: {
+    listaEstaVazia () : boolean {
+      return this.tarefas.length === 0
+    }
+  },
+  methods: {
+    salvarTarefa (tarefa: ITask) {
+      this.tarefas.push(tarefa)
+    }
   }
 });
 </script>
 
 <style>
-
+.lista {
+  padding: 1.25rem;
+}
+main {
+  --bg-primario: #fff;
+  --texto-primario: #000;
+}
+main.modo-escuro {
+  --bg-primario: #2b2d42;
+  --texto-primario: #ddd;
+}
+.conteudo {
+  background-color: var(--bg-primario);
+}
 </style>

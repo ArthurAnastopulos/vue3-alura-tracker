@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box formulario">
     <div class="columns">
       <div
         class="column is-8"
@@ -26,6 +26,7 @@ import TimerMenu from "./TimerMenu.vue";
 
 export default defineComponent({
   name: "FormMenu",
+  emits: ['aoSalvarTarefa'],
   components: {
     TimerMenu
   },
@@ -36,10 +37,18 @@ export default defineComponent({
   },
   methods: {
     finalizarTarefa (tempoDecorrido: number) : void {
-      console.log('tempo da tarefa', tempoDecorrido)
-      console.log('descrição da tarefa', this.descricao)
+      this.$emit('aoSalvarTarefa', {
+        duracaoEmSegundos: tempoDecorrido,
+        descricao: this.descricao
+      })
       this.descricao = ''
     }
   }
 });
 </script>
+<style>
+.formulario {
+  color: var(--texto-primario);
+  background-color: var(--bg-primario);
+}
+</style>
