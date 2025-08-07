@@ -1,6 +1,6 @@
 <template>
-  <div class="is-flex is-align-items-center is-justify-content-space-between">
-    <StopWatch :tempoEmSegundos="tempoEmSegundos" />
+  <section class="is-flex is-align-items-center is-justify-content-space-between">
+    <StopWatch :tempoEmSegundos="tempoEmSegundos"/>
     <button class="button" @click="iniciar" :disabled="cronometroRodando">
       <span class="icon">
         <i class="fas fa-play"></i>
@@ -13,7 +13,7 @@
       </span>
       <span>stop</span>
     </button>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -22,32 +22,35 @@ import StopWatch from "./StopWatch.vue";
 
 export default defineComponent({
   name: "TimerMenu",
-  emits: ['aoTemporizadorFinalizado'],
+  emits: ['aoFinalizarTarefa'],
   components: {
-    StopWatch
+    StopWatch,
   },
   data () {
     return {
       tempoEmSegundos: 0,
-      cronometro: 0,
-      cronometroRodando: false
+      cronometroRodando: false,
+      cronometro: 0
     }
   },
   methods: {
-    iniciar () {
-      // começar a contagem
-      // 1 seg = 1000 ms
+    iniciar () : void {
       this.cronometroRodando = true
       this.cronometro = setInterval(() => {
         this.tempoEmSegundos += 1
       }, 1000)
     },
-    finalizar () {
+    finalizar () : void {
+      this.$emit('aoFinalizarTarefa', this.tempoEmSegundos)
+      this.tempoEmSegundos = 0
       this.cronometroRodando = false
       clearInterval(this.cronometro)
-      this.$emit('aoTemporizadorFinalizado', this.tempoEmSegundos)
-      this.tempoEmSegundos = 0
     }
   }
 });
 </script>
+<style scoped>
+.button {
+  margin-left: 8px;
+}
+</style>

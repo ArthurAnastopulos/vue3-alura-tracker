@@ -1,7 +1,9 @@
 <template>
   <BoxMenu>
     <div class="columns">
-      <div class="column is-7">{{ tarefa.descricao || 'Tarefa sem descrição' }}</div>
+      <div class="column is-7">
+        {{ tarefa.descricao || 'Tarefa sem descrição' }}
+      </div>
       <div class="column">
         <StopWatch :tempoEmSegundos="tarefa.duracaoEmSegundos"/>
       </div>
@@ -10,13 +12,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import StopWatch from "./StopWatch.vue";
-import ITask from '../interfaces/ITask'
-import BoxMenu from "./BoxMenu.vue";
+import { defineComponent, PropType } from 'vue';
+import StopWatch from './StopWatch.vue';
+import BoxMenu from './BoxMenu.vue';
+import ITask from '@/interfaces/ITask';
 
 export default defineComponent({
-  name: "TaskMenu",
+  name: 'TaskMenu',
   components: {
     StopWatch,
     BoxMenu
@@ -25,6 +27,13 @@ export default defineComponent({
     tarefa: {
       type: Object as PropType<ITask>,
       required: true
+    }
+  },
+  computed: {
+    tempoGasto () : string {
+      return new Date(this.tarefa.duracaoEmSegundos * 1000)
+        .toISOString()
+        .substr(11, 8)
     }
   }
 });
