@@ -1,4 +1,6 @@
+import IProject from "./IProject"
 export default interface ITask {
   duracaoEmSegundos: number,
-  descricao: string
+  descricao: string,
+  projeto: IProject
 }

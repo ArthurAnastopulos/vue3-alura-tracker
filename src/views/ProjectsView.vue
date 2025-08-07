@@ -1,7 +1,5 @@
-/* eslint-disable */
-
 <template>
-    <section class="projetos">
+  <section class="projetos">
     <h1 class="title">Projetos</h1>
     <form @submit.prevent="salvar">
       <div class="field">
@@ -35,26 +33,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import IProject from "@/interfaces/IProject";
+import { useStore } from "@/store";
+import { computed, defineComponent } from "vue";
+
 export default defineComponent({
-    name: 'ProjectsView',
-    data() {
+  name: "ProjectsView",
+  data() {
     return {
-      nomeDoProjeto: "",
-      projetos: [] as IProject[],
+      nomeDoProjeto: ""
     };
   },
   methods: {
     salvar() {
-      const projeto: IProject = {
-        nome: this.nomeDoProjeto,
-        id: new Date().toISOString(),
-      };
-      this.projetos.push(projeto);
+      this.store.commit('ADICIONA_PROJETO', this.nomeDoProjeto)
       this.nomeDoProjeto = "";
     },
   },
+  setup () {
+    const store = useStore()
+    return {
+      store,
+      projetos: computed(() => store.state.projetos)
+    }
+  }
 });
 </script>
 
