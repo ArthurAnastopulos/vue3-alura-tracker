@@ -4,6 +4,7 @@
       <SidebarMenu @aoAlterarModo="alterarModo"/>
     </div>
     <div class="column is-three-quarters conteudo">
+        <NotificationMenu />
       <router-view></router-view>
     </div>
   </main>
@@ -12,11 +13,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import SidebarMenu from "./components/SidebarMenu.vue";
+import NotificationMenu from "./components/NotificationMenu.vue";
 
 export default defineComponent({
   name: "App",
   components: {
     SidebarMenu,
+    NotificationMenu
   },
   data () {
     return {
